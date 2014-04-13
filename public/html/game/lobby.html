@@ -1,39 +1,21 @@
+<div class="container">
 Your nickname: {{localPlayer.nickname}} <br>
 Joined Players
 <ul ng-repeat="player in players">
   <li>{{player.nickname}}</li>
 </ul>
+</div>
 <br>
 
 <div ng-hide="gameStart">
-  <button ng-click="start(); gameStart = true;">Start</button>
-  <button ng-click="leave()">Leave</button>
+  <button ng-click="start(); gameStart = true;" class="btn btn-success">Start</button>
+  <button ng-click="leave()" class="btn btn-danger">Leave</button>
 </div>
 
-<div ng-show="gameStart">
-  <h3>Characters</h3>
-  <ul ng-repeat="char in localPlayer.characters">
-    <li>{{char.name}} {{char.rank}}</li>
-  </ul>
-  <div ng-show="selectCharacter">
-    <table class="table" style="width: 300px">
-      <tr>
-        <th>Name </th>
-        <th>Rank </th>
-        <th></th>
-      </tr>
-      <tr ng-repeat="char in characterDeck | orderBy:'rank'" >
-        <td>{{char.name}} </td>
-        <td>{{char.rank}} </td>
-        <td>
-          <button ng-show="isChoose" ng-click="chooseCharacter(char.rank)">Choose</button>
-          <button ng-hide="isChoose || firstRound" ng-click="discardCharacter(char.rank)">Discard</button>
-        </td>
-      </tr>
-    </table>
-  </div>
-  <h3>Owned Districts</h3>
-  <table class="table" style="width: 300px">
+<div ng-show="gameStart" class="row"> 
+ <div class="col-sm-3" style="margin-left:50px">
+	 <h3>Owned Districts</h3>
+  <table class="table-striped" style="width: 300px">
     <tr>
       <th>Name </th>
       <th>Type </th>
@@ -47,7 +29,7 @@ Joined Players
   </table>
   <h3>Gold {{localPlayer.gold}}</h3>
   <h3>District Hand</h3>
-  <table class="table" style="width: 300px">
+  <table class="table-striped" style="width: 300px">
     <tr>
       <th>Name </th>
       <th>Type </th>
@@ -57,14 +39,14 @@ Joined Players
       <td>{{card.name}} </td>
       <td>{{card.type}} </td>
       <td>{{card.cost}} </td>
-      <td><button ng-hide="card.cost > localPlayer.gold || buildCap == 0 || !isBuild" ng-click="localPlayer.buildDistrict(card); --buildCap;"> Build </button> </td>
+      <td><button ng-hide="card.cost > localPlayer.gold || buildCap == 0 || !isBuild" ng-click="localPlayer.buildDistrict(card); --buildCap;" class="btn btn-warning"> Build </button> </td>
     </tr>
   </table>
-
-  <div ng-hide="isBuild || !turnStart">
-    <button ng-click="localPlayer.gainGold(2); isBuild = true;" ng-hide="hideTwoGold">Take two golds</button>
+  </div>
+  <div ng-hide="isBuild || !turnStart" class="well col-md-1">
+    <button ng-click="localPlayer.gainGold(2); isBuild = true;" ng-hide="hideTwoGold" >Take two golds</button>
     <button ng-click="drawTwoCards(); hideTwoGold = true; chooseOne = true;" ng-hide="chooseOne">Draw two district cards, then discard one</button>
-    <table class="table" style="width: 300px" ng-show="chooseOne">
+    <table class="table-striped" style="width: 300px" ng-show="chooseOne">
       <tr>
         <th>Name </th>
         <th>Type </th>
@@ -74,7 +56,7 @@ Joined Players
         <td>{{card.name}} </td>
         <td>{{card.type}} </td>
         <td>{{card.cost}} </td>
-        <td><button ng-click="localPlayer.gainDistrictHand([card]); $parent.isBuild = true;"> Choose </button> </td>
+        <td><button ng-click="localPlayer.gainDistrictHand([card]); $parent.isBuild = true;" class="btn btn-info"> Choose </button> </td>
       </tr>
     </table>
   </div>
@@ -98,7 +80,7 @@ Joined Players
         <td>{{char.name}} </td>
         <td>{{char.rank}} </td>
         <td>
-          <button ng-click="murder(char.rank)">Murder</button>
+          <button ng-click="murder(char.rank)" class="btn btn-danger">Murder</button>
         </td>
       </tr>
     </table>
@@ -122,7 +104,7 @@ Joined Players
         <td>{{char.name}} </td>
         <td>{{char.rank}} </td>
         <td>
-          <button ng-click="steal(char.rank)">Steal</button>
+          <button ng-click="steal(char.rank)" class="btn btn-warning">Steal</button>
         </td>
       </tr>
     </table>
@@ -136,7 +118,7 @@ Joined Players
         <td>{{player.nickname}} </td>
         <td>{{player.numberOfDistrictCards}} </td>
         <td>
-          <button ng-click="exchange(player.nickname)">Exchange</button>
+          <button ng-click="exchange(player.nickname)" class="btn btn-primary">Exchange</button>
         </td>
       </tr>
     </table>
@@ -156,13 +138,36 @@ Joined Players
   <div ng-show="rank8">
     Warlord
   </div>
-  <h3>Other Players</h3>
-  <div ng-repeat="player in players">
+  <div class="col-sm-3" style="margin-left:50px">
+  <h3>Characters</h3>
+   <ul ng-repeat="char in localPlayer.characters">
+     <li>{{char.name}} {{char.rank}}</li>
+   </ul>
+   <div ng-show="selectCharacter">
+     <table class="table" style="width: 300px">
+       <tr>
+         <th>Name </th>
+         <th>Rank </th>
+         <th></th>
+       </tr>
+       <tr ng-repeat="char in characterDeck | orderBy:'rank'" >
+         <td>{{char.name}} </td>
+         <td>{{char.rank}} </td>
+         <td>
+           <button ng-show="isChoose" ng-click="chooseCharacter(char.rank)" class="btn btn-success">Choose</button>
+           <button ng-hide="isChoose || firstRound" ng-click="discardCharacter(char.rank)" class="btn btn-warning">Discard</button>
+         </td>
+       </tr>
+     </table>
+   </div>
+  </div>
+  <div ng-repeat="player in players" class="col-sm-2" style="margin-left:50px">
+	<h3>Other Players</h3>
     Nickname: {{player.nickname}} <br>
     Gold {{player.gold}} <br>
     Number of District Cards {{player.numberOfDistrictCards}} cards <br>
     Owned Districts
-    <table class="table" style="width: 300px">
+    <table class="table-striped" style="width: 300px">
       <tr>
         <th>Name </th>
         <th>Type </th>
